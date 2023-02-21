@@ -6,3 +6,22 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+html, body {
+    height: 100%;
+}
+
+footer {
+    padding: 1rem;
+    text-align: center;
+}
+
+.page-wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

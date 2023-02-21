@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'newsdata' => [
+        'api_key' => env('NEWS_DATA_API_KEY'),
+        'max_filter_count' => 5
+    ],
 ];
