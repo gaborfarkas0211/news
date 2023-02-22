@@ -24,7 +24,7 @@ class PublishNewsRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'link' => ['required', 'url', 'max:255', 'unique:news'],
+            'link' => ['required', 'url', 'max:512', 'unique:news'],
             'published_at' => ['required', 'date_format:Y-m-d H:i:s'],
         ];
     }
