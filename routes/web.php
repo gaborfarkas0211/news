@@ -20,7 +20,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-Route::post('/news/publish', [NewsController::class, 'publish'])->name('news.publish');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::controller(NewsController::class)->group(function () {
+        Route::get('/news', 'index')->name('news.index');
+        Route::post('/news/publish', 'publish')->name('news.publish');
+    });
+});

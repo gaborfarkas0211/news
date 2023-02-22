@@ -20,6 +20,10 @@ class UserSeeder extends Seeder
             ['email' => 'admin@admin.com', 'password' => 'password', 'name' => 'Admin', 'role' => Role::ADMIN],
         ];
         foreach ($users as $user) {
+            if (User::where('email', $user['email'])->exists()) {
+                continue;
+            }
+
             $newUser = User::firstOrCreate(['email' => $user['email']], [
                 'email' => $user['email'],
                 'password' => Hash::make($user['password']),
