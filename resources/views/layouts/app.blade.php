@@ -9,7 +9,7 @@
 <div class="page-wrap">
     @include('layouts.header')
     <div class="container">
-        @include('layouts.errors')
+        @include('layouts.response')
         @yield('content')
     </div>
 </div>

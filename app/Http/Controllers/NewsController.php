@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\NewsFilterRequest;
+use App\Http\Requests\PublishNewsRequest;
 use App\Http\Resources\NewsdataResource;
+use App\Models\News;
 use App\Services\NewsdataApiService;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class NewsController extends Controller
 {
-    public function index(NewsFilterRequest $request, NewsdataApiService $newsdataApiService)
+    public function index(NewsFilterRequest $request, NewsdataApiService $newsdataApiService): View
     {
         $filters = $request->validated();
         $params = $this->createQueryParams($filters);
@@ -23,6 +27,13 @@ class NewsController extends Controller
         return view('news.index',
             compact('latestNews', 'countries', 'categories', 'languages')
         );
+    }
+
+    public function publish(PublishNewsRequest $request): RedirectResponse
+    {
+        $news = News::create($request->validated());
+
+        return redirect()->back()->with('success', "News published successfully [{$news->title}]");
     }
 
     protected function createQueryParams(array $filters): array
