@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\NewsPublished;
 use App\Http\Requests\NewsFilterRequest;
 use App\Http\Requests\PublishNewsRequest;
 use App\Http\Resources\NewsdataResource;
@@ -32,6 +33,7 @@ class NewsController extends Controller
     public function publish(PublishNewsRequest $request): RedirectResponse
     {
         $news = News::create($request->validated());
+        NewsPublished::dispatch($news);
 
         return redirect()->back()->with('success', "News published successfully [{$news->title}]");
     }
