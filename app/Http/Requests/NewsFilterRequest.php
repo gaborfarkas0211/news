@@ -8,7 +8,6 @@ use Illuminate\Validation\Rule;
 
 class NewsFilterRequest extends FormRequest
 {
-//    protected $redirectRoute = 'news.index';
     /**
      * Determine if the user is authorized to make this request.
      */

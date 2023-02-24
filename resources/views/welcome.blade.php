@@ -12,7 +12,7 @@
                         <div class="card h-100">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $item->title }}</h5>
-                                <p class="card-text">{{ $item->description }}</p>
+                                <p class="card-text">{!! $item->description !!}</p>
                                 <hr>
                                 <p class="card-text">Accent Ratio Index: {{ $item->accent_ratio_index }}</p>
                             </div>
