@@ -20,6 +20,8 @@ function createNewsCardElement(news) {
             <div class="card-body">
                 <h5 class="card-title">${news.title}</h5>
                 <p class="card-text">${news.description ?? ''}</p>
+                <hr>
+                <p class="card-text">Accent Ratio Index: ${news.accent_ratio_index}</p>
             </div>
             <div class="card-footer d-flex justify-content-between">
                 <small class="text-muted">${new Date(news.created_at).toLocaleString('hu')}</small>

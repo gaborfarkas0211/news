@@ -13,6 +13,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $item->title }}</h5>
                                 <p class="card-text">{{ $item->description }}</p>
+                                <hr>
+                                <p class="card-text">Accent Ratio Index: {{ $item->accent_ratio_index }}</p>
                             </div>
                             <div class="card-footer d-flex justify-content-between">
                                 <small class="text-muted">{{ $item->created_at->format('Y. m. d. H:i:s') }}</small>

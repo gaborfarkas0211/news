@@ -19,8 +19,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Pusher from 'pusher-js';
 
-Pusher.logToConsole = true;
-
 window.Pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER
 });

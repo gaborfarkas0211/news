@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\NewsDescriptionAnalyzer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|News wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|News whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|News whereUpdatedAt($value)
+ * @property float $accent_ratio_index
+ * @method static \Illuminate\Database\Eloquent\Builder|News whereAccentRatioIndex($value)
  * @mixin \Eloquent
  */
 class News extends Model
@@ -37,7 +40,20 @@ class News extends Model
         'description',
         'link',
         'published_at',
+        'accent_ratio_index',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (News $news) {
+            $analyzer = app(NewsDescriptionAnalyzer::class, [$news]);
+            $analyzer->analyze();
+            $news->accent_ratio_index = $analyzer->getAccentRatioIndex();
+        });
+    }
+
 
     public static function getOrderedNews(): Collection
     {
