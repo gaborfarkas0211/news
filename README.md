@@ -23,7 +23,10 @@ The application has an analyzing service that analyzes the description of publis
 - Run the `composer deploy` to install and build dependencies
 
 ## Usage
-- Run `php -S 127.0.0.1:8080 -t public` command to start the application
+- Run `php -S 127.0.0.1:8080 -t public` command to start the application 
+- After installation, a user exists in the system with the next auth data 
+  - email: `admin@admin.com`
+  - password: `password`
 
 ## Author
 * Gábor Farkas
