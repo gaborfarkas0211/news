@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Services\NewsDescriptionAnalyzer;
+use App\Contracts\TextSourceInterface;
+use App\Services\TextAnalyzer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|News whereAccentRatioIndex($value)
  * @mixin \Eloquent
  */
-class News extends Model
+class News extends Model implements TextSourceInterface
 {
     use HasFactory;
 
@@ -48,7 +49,7 @@ class News extends Model
         parent::boot();
 
         static::creating(function (News $news) {
-            $analyzer = app(NewsDescriptionAnalyzer::class, [$news]);
+            $analyzer = app(TextAnalyzer::class, [$news]);
             $analyzer->analyze();
             $news->accent_ratio_index = $analyzer->getAccentRatioIndex();
         });
@@ -60,5 +61,10 @@ class News extends Model
         return News::query()
             ->orderByDesc('created_at')
             ->get();
+    }
+
+    public function getText(): string|null
+    {
+        return $this->description;
     }
 }

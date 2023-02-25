@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\NewsdataApiService;
-use App\Services\NewsDescriptionAnalyzer;
+use App\Services\TextAnalyzer;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,8 +17,8 @@ class AppServiceProvider extends ServiceProvider
             return new NewsdataApiService(config('services.newsdata.api_key'));
         });
 
-        $this->app->bind(NewsDescriptionAnalyzer::class, function ($app, $parameters): NewsDescriptionAnalyzer {
-            return new NewsDescriptionAnalyzer($parameters[0]);
+        $this->app->bind(TextAnalyzer::class, function ($app, $parameters): TextAnalyzer {
+            return new TextAnalyzer($parameters[0]);
         });
     }
 

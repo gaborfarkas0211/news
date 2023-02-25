@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\News;
+use App\Contracts\TextSourceInterface;
 use Illuminate\Support\Collection;
 
-class NewsDescriptionAnalyzer
+class TextAnalyzer implements Analyzer
 {
     private string $cleanedDescription;
     private Collection $uniqueWords;
     private int $wordsCount;
     private int|float $accentRatioIndex = 0;
 
-    public function __construct(private readonly News $news)
+    public function __construct(private readonly TextSourceInterface $textSource)
     {
     }
 
@@ -35,7 +35,7 @@ class NewsDescriptionAnalyzer
 
     private function cleanDescription(): void
     {
-        $this->cleanedDescription = preg_replace('/\p{P}/u', '', mb_strtolower($this->news->description));
+        $this->cleanedDescription = preg_replace('/\p{P}/u', '', mb_strtolower($this->textSource->getText()));
     }
 
     private function setUniqueWords(): void
