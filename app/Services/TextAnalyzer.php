@@ -65,7 +65,11 @@ class TextAnalyzer implements Analyzer
 
     private function calculateAccentRatioForWord(string $word): float
     {
-        $accentCharsCount = count(preg_grep('/[áéíóöőúüű]/u', mb_str_split($word)));
+        $normalizedWord = strtr($word, config('newsdata.accent_chars'));
+        $normalizedWordCharacters = mb_str_split($normalizedWord);
+        $wordCharacters = mb_str_split($word);
+
+        $accentCharsCount = count(array_diff($wordCharacters, $normalizedWordCharacters));
         $charsCount = mb_strlen($word);
 
         return round($accentCharsCount / $charsCount, 1);
