@@ -7,9 +7,8 @@ use Illuminate\Support\Collection;
 
 class TextAnalyzer implements Analyzer
 {
-    private string $cleanedDescription;
-    private Collection $uniqueWords;
-    private int $wordsCount;
+    private readonly string $cleanedDescription;
+    private readonly Collection $words;
     private int|float $accentRatioIndex = 0;
 
     public function __construct(private readonly TextSourceInterface $textSource)
@@ -19,9 +18,9 @@ class TextAnalyzer implements Analyzer
     public function analyze(): void
     {
         $this->cleanDescription();
-        $this->setUniqueWords();
+        $this->setWords();
 
-        if (0 === $this->wordsCount) {
+        if (0 === $this->words->count()) {
             return;
         }
 
@@ -38,11 +37,10 @@ class TextAnalyzer implements Analyzer
         $this->cleanedDescription = preg_replace('/\p{P}/u', '', mb_strtolower($this->textSource->getText()));
     }
 
-    private function setUniqueWords(): void
+    private function setWords(): void
     {
         $words = array_filter(explode(' ', $this->cleanedDescription));
-        $this->wordsCount = count($words);
-        $this->uniqueWords = collect($words);
+        $this->words = collect($words);
     }
 
     private function calculateAccentRatioIndex(): void
@@ -50,12 +48,12 @@ class TextAnalyzer implements Analyzer
         $accentRatios = $this->calculateAccentRatios();
         $mostCommonRatiosCount = $this->getMostCommonAccentRatioCount($accentRatios);
 
-        $this->accentRatioIndex = $mostCommonRatiosCount / $this->wordsCount;
+        $this->accentRatioIndex = $mostCommonRatiosCount / $this->words->count();
     }
 
     private function calculateAccentRatios(): Collection
     {
-        return $this->uniqueWords->map(fn(string $word) => $this->calculateAccentRatioForWord($word));
+        return $this->words->map(fn(string $word) => $this->calculateAccentRatioForWord($word));
     }
 
     private function getMostCommonAccentRatioCount(Collection $accentRatios): int
